@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-default" id="bg">
+
+
+  <div class="keys">
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">Dab</span>
+    </div>
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">Ahhh</span>
+    </div>
+    <div data-key="78" class="key">
+      <kbd>N</kbd>
+      <span class="sound">NaNaNa</span>
+    </div>
+    <div data-key="67" class="key">
+      <kbd>C</kbd>
+      <span class="sound">ChaChaCha</span>
+    </div>
+    <div data-key="69" class="key">
+      <kbd>E</kbd>
+      <span class="sound">Boom</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>?</kbd>
+      <span class="sound">Let Dance</span>
+    </div>
+  </div>
+
+  <audio data-key="68" src="sounds/dab.wav"></audio>
+  <audio data-key="65" src="sounds/ahhh.wav"></audio>
+  <audio data-key="78" src="sounds/nana.wav"></audio>
+  <audio data-key="67" src="sounds/chacha.wav"></audio>
+  <audio data-key="69" src="sounds/boom.wav"></audio>
+  <audio data-key="83" src="sounds/ihear.wav"></audio>
+
+<script>
+
+  function removeBg(e) {
+    var el = document.getElementById('bg')
+    console.log(el.classList.value.className);
+    el.target.classList.remove('bg');
+  }
+
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+    var elems = document.querySelectorAll(".bg-default");
+    console.log(elems);
+  }
+
+  function playSound(e, el) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    if (!audio) return;
+
+    var el = document.getElementById('bg')
+    console.log(el.classList.value);
+
+
+    document.querySelector('body').classList.remove('bg-default', 'bg-68', 'bg-65', 'bg-78', 'bg-70', 'bg-67', 'bg-69', 'bg-83');
+    document.querySelector('body').classList.add('bg-' + (e.keyCode) );
+
+    key.classList.add('playing');
+    audio.currentTime = 0;
+    audio.play();
+  }
+
+  const keys = Array.from(document.querySelectorAll('.key'));
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound, removeBg);
+</script>
+
+
+</body>
+</html>

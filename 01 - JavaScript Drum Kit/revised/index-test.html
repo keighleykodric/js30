@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-default">
+
+
+  <div class="keys">
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">Dab</span>
+    </div>
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">Ahhh</span>
+    </div>
+    <div data-key="78" class="key">
+      <kbd>N</kbd>
+      <span class="sound">NaNaNa</span>
+    </div>
+    <div data-key="67" class="key">
+      <kbd>C</kbd>
+      <span class="sound">ChaChaCha</span>
+    </div>
+    <div data-key="69" class="key">
+      <kbd>E</kbd>
+      <span class="sound">Boom</span>
+    </div>
+    <!-- <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div> -->
+  </div>
+
+  <audio data-key="68" src="sounds/d.wav"></audio>
+  <audio data-key="65" src="sounds/hihat.wav"></audio>
+  <audio data-key="78" src="sounds/kick.wav"></audio>
+  <audio data-key="67" src="sounds/openhat.wav"></audio>
+  <audio data-key="69" src="sounds/boom.wav"></audio>
+  <!-- <audio data-key="72" src="sounds/ride.wav"></audio>
+  <audio data-key="74" src="sounds/snare.wav"></audio>
+  <audio data-key="75" src="sounds/tom.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio> -->
+
+<script>
+
+
+
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    const body = document.querySelector('body');
+    const bg = e.srcElement.className;
+    if(!audio) return; // stop the function if there is no data for that keybord button
+    audio.currentTime = 0; // rewind sound to start
+    audio.play();
+    key.classList.add('playing');
+    //body.classList.add('bg-' + (e.keyCode));
+  }
+
+  function changeBackground(e) {
+    //bgKey.classList.remove('bgKey');
+    document.body.classList.add('bg-' + (e.keyCode));
+    //document.querySelector('body').add('bg-' + (e.keyCode) );
+  }
+
+  function removeBg(e) {
+
+console.log(e);
+  };
+
+
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return; // skip it if its not a transform
+    this.classList.remove('playing');
+    //document.querySelector('body').remove('bg-' + (e.keyCode));
+
+
+  };
+
+  const keys = document.querySelectorAll(".key");
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition, removeBg));
+  window.addEventListener('keydown', playSound, changeBackground);
+</script>
+
+
+</body>
+</html>
